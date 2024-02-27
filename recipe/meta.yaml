@@ -1,7 +1,7 @@
 {% set name = "qdarkstyle" %}
 {% set package_name = "QDarkStyle" %}
-{% set version = "3.0.2" %}
-{% set hash = "55d149cf5f40ee297397f1818e091118cefb855a4a9c5c38566c47acd2d8c7ae" %}
+{% set version = "3.2.3" %}
+{% set hash = "0c0b7f74a6e92121008992b369bab60468157db1c02cd30d64a5e9a3b402f1ae" %}
 
 package:
   name: {{ name|lower }}
@@ -15,19 +15,30 @@ source:
 build:
   noarch: python
   number: 0
-  script: '{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv '
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vvv
+  entry_points:
+    - qdarkstyle = qdarkstyle.__main__:main
+    - qdarkstyle.example = qdarkstyle.example.__main__:main
+    - qdarkstyle.utils = qdarkstyle.utils.__main__:main
 
 requirements:
   host:
     - python
     - pip
+    - setuptools
+    - wheel
 
   run:
     - python
+    - qtpy >=2
 
 test:
   imports:
     - qdarkstyle
+  requires:
+    - pip
+  commands:
+    - pip check
 
 about:
   home: https://github.com/ColinDuquesnoy/QDarkStyleSheet
@@ -35,11 +46,10 @@ about:
   license_family: MIT
   license_file: LICENSE.rst
   summary: A dark stylesheet for Qt applications (Qt4, Qt5, PySide, PyQt4, PyQt5, QtPy, PyQtGraph).
-
   description: |
-    Package that provides dark stylesheet for Qt applications
-    (Qt4, Qt5, PySide, PyQt4, PyQt5, QtPy, PyQtGraph).
-  dev_url: https://github.com/ColinDuquesnoy/QDarkStyleSheet/tree/dev
+    The most complete dark/light style sheet for C++/Python and Qt applications
+  dev_url: https://github.com/ColinDuquesnoy/QDarkStyleSheet/
+  doc_url: https://qdarkstylesheet.readthedocs.io
 
 extra:
   recipe-maintainers:
